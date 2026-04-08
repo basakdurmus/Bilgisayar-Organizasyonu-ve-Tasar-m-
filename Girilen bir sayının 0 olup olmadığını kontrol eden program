@@ -1,0 +1,29 @@
+.data
+
+
+mesaj: .asciiz "birinci sayı giriniz"
+mesaj1: .asciiz "sifir "
+
+
+.text
+
+
+main:
+li $v0,4
+la $a0,mesaj
+syscall
+
+li $v0, 5       
+syscall  
+move $t0, $v0             
+
+bne$t0,$zero,bitis
+
+atla:
+li $v0,4
+la $a0,mesaj1
+syscall
+
+bitis: 
+li $v0,10
+syscall
