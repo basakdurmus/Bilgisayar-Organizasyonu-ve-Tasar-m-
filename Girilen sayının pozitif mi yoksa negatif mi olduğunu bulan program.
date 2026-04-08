@@ -1,0 +1,38 @@
+.data
+
+mesaj: .asciiz "birinci sayı giriniz"
+
+.text
+
+
+main:
+li $v0,4
+la $a0,mesaj
+syscall
+
+li $v0, 5       
+syscall  
+move $t0, $v0             
+
+slt $t1,$t0,$zero
+
+li $v0,1
+move $a0,$t1
+syscall
+
+li $v0,10
+syscall
+
+
+//MIPS'te sayının sıfırdan büyük mü küçük mü olduğunu tek hamlede kontrol eden özel komutlar vardır:
+
+bltz (Branch on Less Than Zero): "Eğer sayı sıfırdan küçükse (negatifse) şu etikete atla" demektir.
+
+bgez (Branch on Greater Than or Equal to Zero): "Eğer sayı sıfırdan büyük veya eşitse (pozitifse) şu etikete atla" demektir.
+
+
+//slt (Set on Less Than): Bu komut ile sayıyı $zero ile karşılaştırırsın.
+
+Eğer sayı sıfırdan küçükse, hedef yazmacın içine 1 yazar.
+
+Küçük değilse 0 yazar.
