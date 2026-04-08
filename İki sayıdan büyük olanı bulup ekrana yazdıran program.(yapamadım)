@@ -1,0 +1,38 @@
+.data
+    sayi1:  .word 75        # İlk sayımız
+    sayi2:  .word 120       # İkinci sayımız
+    sonuc:  .asciiz "Buyuk olan sayi: "
+
+.text
+main:
+    # 1. VERİLERİ BELLEKTEN (RAM) YAZMAÇLARA (REGISTER) ÇEK
+    # 'lw' (Load Word) komutu adresteki değeri alır ve kutuya koyar.
+    lw $t0, sayi1           # $t0 = 75
+    lw $t1, sayi2           # $t1 = 120
+
+    # 2. "Sonuç: " mesajını yazdır
+    li $v0, 4
+    la $a0, sonuc
+    syscall
+
+    # 3. KARŞILAŞTIRMA
+    # Eğer $t0 > $t1 ise 'birinci_buyuk' etiketine zıpla
+    bgt $t0, $t1, birinci_buyuk
+
+ikinci_buyuk:
+    # Burası çalışıyorsa $t1 daha büyüktür
+    li $v0, 1
+    move $a0, $t1
+    syscall
+    j bitir                  # t0_buyuk kısmına girmemesi için atla
+
+birinci_buyuk:
+    # Burası çalışıyorsa $t0 daha büyüktür
+    li $v0, 1
+    move $a0, $t0
+    syscall
+
+bitir:
+    # Programı kapat
+    li $v0, 10
+    syscall
