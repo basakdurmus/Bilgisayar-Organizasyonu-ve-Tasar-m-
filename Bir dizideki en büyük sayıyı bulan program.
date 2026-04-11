@@ -1,0 +1,45 @@
+.data
+    dizi:   .word 15, 42, 8, 91, 23, 67, 34, 55, 12, 7  # 10 elemanlı örnek dizi
+    boyut:  .word 10
+    mesaj:  .asciiz "Dizideki en büyük sayı: "
+
+.text
+main:
+    la $t0, dizi        # $t0 = Dizinin başlangıç adresi
+    lw $t1, boyut       # $t1 = Eleman sayısı (10)
+    
+    lw $t2, 0($t0)      # $t2 = En büyük sayı (Şimdilik ilk elemanı seçtik: 15)
+    
+    li $t3, 1           # $t3 = Sayaç (i = 1'den başlıyoruz çünkü ilkini zaten aldık)
+
+dongu:
+    beq $t3, $t1, yazdir # Eğer i == 10 ise döngü bitti, yazdır.
+
+    addi $t0, $t0, 4    # Adresi 4 byte ilerlet (Bir sonraki elemana geç)
+    lw $t4, 0($t0)      # $t4 = Mevcut eleman (dizi[i])
+
+    # Karşılaştırma: En_Buyuk ($t2) < Mevcut ($t4) mi?
+    slt $t5, $t2, $t4   
+    beq $t5, $zero, atla # Eğer en büyük hala büyükse (t5=0), güncelleme yapma, atla.
+
+    # Eğer mevcut eleman daha büyükse, en büyüğü güncelle
+    move $t2, $t4       # En_Buyuk = Mevcut
+
+atla:
+    addi $t3, $t3, 1    # Sayacı artır (i++)
+    j dongu             # Döngü başına dön
+
+yazdir:
+    # Mesajı yazdır
+    li $v0, 4
+    la $a0, mesaj
+    syscall
+
+    # Bulunan en büyük sayıyı yazdır
+    move $a0, $t2
+    li $v0, 1
+    syscall
+
+bitir:
+    li $v0, 10
+    syscall
