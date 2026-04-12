@@ -1,0 +1,36 @@
+.data
+    mesaj: .asciiz "sayı giriniz"
+
+    boyut: .word 5
+    dizi: .space 20
+
+.text
+main:
+
+lw $t5,boyut
+li $t6,0
+la $t0,dizi
+
+loop:
+
+li $v0,4
+la $a0,mesaj
+syscall
+
+li $v0,5
+syscall
+
+
+sw $v0, 0($t0)      
+addi $t0, $t0, 4
+addi $t6,$t6,1
+
+beq $t5,$t6,bitir
+
+
+j  loop
+
+
+bitir:
+    li $v0, 10
+    syscall
