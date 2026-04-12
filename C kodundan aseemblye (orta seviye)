@@ -1,0 +1,48 @@
+int n = 10;
+int sum = 0;
+int i = 1;
+
+while (i <= n) {
+    if (i % 2 == 0) {
+        sum = sum + i;
+    }
+    i++;
+}
+
+
+
+.data 
+sayi: .word 10
+
+
+.text
+
+main:
+
+lw $t0,sayi
+li $t2,0
+li $t1,1
+
+devam:
+bgt $t1,$t0,bitir
+li $t3,2
+
+div $t1,$t3
+mfhi $s0
+bne $s0,$zero,arttir
+add $t2,$t2,$t1,
+
+arttir:
+
+addi $t1,$t1,1
+			
+j devam
+
+
+bitir:
+li $v0,1
+move $a0,$t2
+syscall
+
+li $v0, 10
+syscall
