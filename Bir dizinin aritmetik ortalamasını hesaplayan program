@@ -1,0 +1,37 @@
+.data
+    mesaj: .asciiz "sayi  giriniz"
+    dizi: .word  10, 20, 30, 40, 50
+    boyut: .word 5
+    orta: .asciiz "ortalama: "
+    
+.text
+main:
+la $t0,dizi
+lw $t1,boyut
+li $t6,0
+li $t3,0
+
+ort:
+    beq $t3, $t1, yazdir 
+
+    lw $t4, 0($t0)  
+    
+    add $t6,$t6,$t4
+    addi $t0, $t0, 4 
+    addi $t3,$t3,1
+    j ort
+
+    yazdir:
+    li $v0,4
+    la $a0,orta
+    syscall
+
+    div $t6,$t3
+    mflo $a0
+    li $v0,1
+    syscall
+
+bitir:
+    li $v0, 10
+    syscall
+
